@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<style>
+canvas {
+    background-color: white;
+     margin-left: 10px;
+}
+body {
+    background-color: lightblue;
+}
+ p {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 0;
+    margin-left: 10px;
+    margin-right: 0;
+}
+ p.one {
+    display: inline;
+}
+</style>
+<section> 
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">CarliWeinberg.com</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/">Home</a></li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Games <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="blankBlank.html">Carli Says</a></li>
+          <li><a href="colorGame.html">Color Game</a></li>
+          <li><a href="drivingGame.html">Driving Game</a></li>
+        </ul>
+      </li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> Schedule <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="http://athletics.rose-hulman.edu/sports/wsoc/2016-17/schedule">Soccer Games</a></li>
+          <li><a href="carlisSchedule.html">Fall Quarter</a></li>
+        </ul>
+      </li>
+
+    </ul>
+  </div>
+</nav>    
+<p> Use the arrow keys to move around. Collect the gold and avoid the red enemies. Bonus points for splitting the enemies.</p>
+<p.one > Your score: </p.one>
+<p.one  id="score"> 0 </p.one>
+
+</section>
+    
+<section>
+<body onload="startGame()">
+<script>
+var myGamePiece;
+var myCoin;
+var enemyOne;
+var enemyTwo;
+var enemyThree;
+var canvasHeight = 400;
+var canvasWidth = 800;
+var gameScore = 0;
+var coinsCollected=0;
+
+
+function startGame() {
+    myGamePiece = new component(30, 30, "#7cf995", Math.floor((Math.random() * canvasWidth) + 1), Math.floor((Math.random() * canvasHeight) + 1));
+    myCoin = new component(10, 10, "#9e8403", Math.floor((Math.random() * canvasWidth) + 1), Math.floor((Math.random() * canvasHeight) + 1));
+    enemyOne = new component(15, 15, "red",  50,50); 
+    enemyTwo = new component(15, 15, "red", -20, -20);
+    myGameArea.start();
+    gameScore = 0;
+    coinsCollected = 0;
+  
+}
+
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = canvasWidth;
+        this.canvas.height = canvasHeight;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[2]);
+        this.frameNo = 0;
+        this.interval = setInterval(updateGameArea, 20);
+        window.addEventListener('keydown', function (e) {
+            e.preventDefault();
+            myGameArea.keys = (myGameArea.keys || []);
+            myGameArea.keys[e.keyCode] = (e.type == "keydown");
+        })
+        window.addEventListener('keyup', function (e) {
+            myGameArea.keys[e.keyCode] = (e.type == "keydown");
+        })
+    },
+    stop : function() {
+        clearInterval(this.interval);
+    },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+function component(width, height, color, x, y, type) {
+
+    this.type = type;
+    this.width = width;
+    this.height = height;
+    this.speed = 0;
+    this.angle = 0;
+    this.moveAngle = 0;
+    this.x = x;
+    this.y = y;
+    this.update = function() {
+        ctx = myGameArea.context;
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.fillStyle = color;
+        ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);
+        ctx.restore();
+    }
+    this.newPos = function() {
+        this.angle += this.moveAngle * Math.PI / 180;
+        this.x += this.speed * Math.sin(this.angle);
+        this.y -= this.speed * Math.cos(this.angle);
+        if(this.x>canvasWidth){
+            this.x = this.x-canvasWidth;
+        }
+        if(this.x<0){
+            this.x = this.x+canvasWidth;
+        }
+        if(this.y<0){
+            this.y = this.y+canvasHeight;
+        }
+        if(this.y>canvasHeight){
+            this.y = this.y-canvasHeight;
+        }
+    }
+    this.randPos = function() {
+        this.x = Math.floor((Math.random() * canvasWidth) + 1);
+        this.y = Math.floor((Math.random() * canvasHeight) + 1);
+    }
+    this.enemyMove = function(){
+        if(myGamePiece.x > this.x){
+            this.x = this.x + .5;
+        }else{
+            this.x = this.x -.5;
+        }
+        if(myGamePiece.y >this.y){
+            this.y = this.y + .5;
+        }else{
+            this.y = this.y -.5;
+        }
+    }
+    this.enemyCoin = function(){
+        if(myGamePiece.x > this.x){
+            this.x = this.x + 1.5;
+        }else{
+            this.x = this.x -1.5;
+        }
+        if(myGamePiece.y >this.y){
+            this.y = this.y + 1.5;
+        }else{
+            this.y = this.y -1.5;
+        }
+    }
+}
+
+function updateGameArea() {
+    myGameArea.clear();
+    myGamePiece.moveAngle = 0;
+    myGamePiece.speed = 0;
+    if (myGameArea.keys && myGameArea.keys[37] ) {myGamePiece.moveAngle = -5; } //left
+    if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.moveAngle = 5; } //right
+    if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speed= 3; }//up
+    if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speed= -3; }
+    myGamePiece.newPos();
+    myGamePiece.update();
+   if(collideTest(myGamePiece, myCoin)==true){
+        coinsCollected = coinsCollected +1;
+        gameScore = gameScore + 300;
+        myCoin.randPos();
+           document.getElementById("score").innerHTML = gameScore;
+    } 
+    if(splitThem(myGamePiece, enemyOne,enemyTwo)==true || splitThem(myGamePiece, enemyTwo,enemyOne)==true){
+        gameScore = gameScore + 20;
+           document.getElementById("score").innerHTML = gameScore;
+    } 
+    if(collideTest(myGamePiece, enemyOne)==true || collideTest(myGamePiece, enemyTwo)==true){
+    alert("Game Over! " + "\nYour score:"+ gameScore + "\nCoins collected: " + coinsCollected);
+        myGameArea.stop();
+    }
+    gameScore = gameScore + 1;
+    document.getElementById("score").innerHTML = gameScore;
+    myCoin.update();
+    if(gameScore >4){
+    enemyTwo.enemyCoin();
+    enemyTwo.update();
+    }
+    enemyOne.enemyMove();
+    enemyOne.update();
+    
+}
+
+function collideTest(one, two){    
+    if((one.x + one.width) > two.x && (one.x)< (two.x + two.width) &&
+      (one.y + one.height) > two.y && (one.y)< (two.y + two.height)) {
+     return true;
+    } 
+   return false;
+}
+
+function splitThem(myPiece, one, two){
+    if(one.x<myPiece.x && myPiece.x<two.x){
+        if((one.y<myPiece.y && myPiece.y<two.y)||two.y<myPiece.y && myPiece.y<one.y){
+            return true;
+        }
+    }
+    return false;
+}
+
+
+</script>
+
+</body>
+    </section>
+</html>

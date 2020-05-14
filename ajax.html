@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Carli Weinberg</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./layout-styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    
+<p>
+<button onclick="myStart()">Start</button>
+<button onclick="myCheck()">Check</button>
+<p id="demo"></p>
+<script>
+ var colors = ["Blue", "Red", "Orange", "Green"];
+ var thisList = [];
+ var guessList = [];
+ var score = 0;
+ var maxScore=0;
+    
+function myStart(){
+    var colNum = Math.floor((Math.random() * 4));
+    thisList.push(colors[colNum]);
+    document.getElementById("score").innerHTML = score;
+    console.log("thisList " + thisList);
+    document.getElementById("demo").innerHTML = colors[colNum];
+}
+    
+function buttonPress(buttonNum){
+    indicateSwitch();
+   guessList.push(colors[buttonNum]);
+}
+    
+ var j;
+var switchInicator =0;
+function myCheck(){
+    indicateSwitch();
+    for(j=0; j<thisList.length; j++){
+        if(thisList[j]!=guessList[j]){
+            console.log("guesst list " + guessList);
+            document.getElementById("two").innerHTML = "Wrong";
+            return false;
+        }
+    }
+ document.getElementById("two").innerHTML = "Correct";
+    score = score +1;
+    if(score> localStorage.getItem("highScore")){
+        var highScoreName = document.getElementById("myHigh").value;
+        maxScore = score;
+        localStorage.setItem("highScore", maxScore);
+        localStorage.setItem("highName", highScoreName);
+        //document.getElementById("three").innerHTML = localStorage.getItem("highScore");
+    } else{
+        document.getElementById("three").innerHTML = "current high score";
+    }
+    document.getElementById("four").innerHTML = localStorage.getItem("highScore");
+    document.getElementById("five").innerHTML = localStorage.getItem("highName");
+ myStart();
+ guessList = [];
+    return true;
+}
+    
+function indicateSwitch(){
+    if(switchInicator===0){
+        switchInicator=1;
+    document.getElementById("change").innerHTML = "x";
+    } else{
+        switchInicator=0;
+    document.getElementById("change").innerHTML = "o";
+    }
+}
+
+</script>
+
+<a>
+
+<button style="color: blue" class="myclass" onclick="buttonPress(0)"> </button1> 
+<button class="myclass" onclick="buttonPress(1)"> </button2> 
+    <br /> 
+<button class="myclass" onclick="buttonPress(2)"> </button3> 
+<button class="myclass" onclick="buttonPress(3)"> </button5>  
+</a>
+    <p id="two"></p>
+    <p id="score"></p>
+    <p id="change"></p>
+    <nav> 
+    <p id="three"></p>
+    <p id="four"></p>
+    <p id="five"></p>
+    Player Name: <input type="text" id="myHigh" value="PlayerName">
+    </nav>
+<a>
+</a>
+</body>
+</html>

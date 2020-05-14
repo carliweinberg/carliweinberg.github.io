@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script   src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+<style>
+
+div.absolute {
+    position: fixed;
+    width: 150px;
+    height: 150px;
+    border: 3px solid #999999;
+}
+
+button1.myclass:hover{
+width: 400px;
+}
+</style>
+</head>
+<body>
+
+<script>
+function myFunction(){
+document.getElementById("two").innerHTML = "hi";
+}
+
+
+</script>
+
+<p id="two"></p>
+<button class="myclass" id="hi" data-text-swap="Show">Hide</button>
+
+
+<script>
+$(".myclass").on("click", function() {
+  var el = $(this);
+  if (el.text() == el.data("text-swap")) {
+    el.text(el.data("text-original"));
+  } else {
+    el.data("text-original", el.text());
+    el.text(el.data("text-swap"));
+  }
+});
+</script>
+</body>
+</html>
+

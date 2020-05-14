@@ -1,0 +1,53 @@
+<html>
+
+<head>
+    <!-- Load the Firebase base library before loading the body. -->
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" />
+    <link rel="stylesheet" type="text/css" href="colorMatch.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <script src="colorMatch.js"></script>
+    <a href="colorMatch.html">Quit</a>
+    <p id="score">Score: 0</p>
+
+    <canvas id="mainColorCanvas" width="200" height="100"></canvas>
+    <!-- <canvas id="guessColorCanvas" width="200" height="100"></canvas> -->
+    <div class="slidecontainer">
+        <p id="blueLabel">Blue</p>
+        <input type="range" min="0" max="255" value="150" id="rangeBlue" class="slider">
+        <p id="greenLabel">Green</p>
+        <input type="range" min="0" max="255" value="150" id="rangeGreen" class="slider">
+        <p id="redLabel">Red</p>
+        <input type="range" min="0" max="255" value="150" id="rangeRed" class="slider">
+    </div>
+    <p></p>
+
+
+    <!-- Trigger/Open The Modal -->
+    <button id="myBtn">Guess</button>
+    
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="modalHeaderText">Some text in the Modal..</p>
+            <p id= "ansColors"></p>
+            <canvas id="answerColorCanvas" width="200" height="100"></canvas>
+            <p id="guessColors"></p>
+            <canvas id="guessColorCanvas" width="200" height="100"></canvas>
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

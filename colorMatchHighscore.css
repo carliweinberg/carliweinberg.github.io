@@ -1,0 +1,20 @@
+body {
+    background-color: rgb(173, 230, 201);
+     font-family: Arial, Helvetica, sans-serif;
+     font-size: 200%;
+   }
+
+p {
+    display: inline;
+    padding: 4%;
+}
+
+a:link, a:visited {
+    background-color: #6917b6;
+    color: white;
+    padding: 14px 25px;
+    margin: 3%;
+    text-align: center; 
+    text-decoration: none;
+    display: inline-block;
+  }

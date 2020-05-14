@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Carli Weinberg</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./layout-styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">CarliWeinberg.com</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/">Home</a></li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Games <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="blankBlank.html">Carli Says</a></li>
+          <li><a href="colorGame.html">Color Game</a></li>
+        </ul>
+      </li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> Schedule <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="http://athletics.rose-hulman.edu/sports/wsoc/2016-17/schedule">Soccer Games</a></li>
+          <li><a href="carlisSchedule.html">Fall Quarter</a></li>
+        </ul>
+      </li>
+
+    </ul>
+  </div>
+    
+</nav>
+    <p > Carli Says. Click start. Select the button color that is displayed and then click check. If you are correct you will get a new color. Click the original color and then the new displayed color and then click check again. To play again you have to restart the page.</p>
+<p>
+Player Name: <input type="text" id="myHigh" value="PlayerName">
+<button onclick="myStart()">Start</button>
+<button onclick="myCheck()">Check</button>
+<p.in display ="inline" id="two"></p.in>
+<p id="demo"></p>
+<script>
+ var colors = ["Blue", "Red", "Orange", "Green"];
+ var thisList = [];
+ var guessList = [];
+ var score = 0;
+ var maxScore=0;
+    
+function myStart(){
+    var colNum = Math.floor((Math.random() * 4));
+    thisList.push(colors[colNum]);
+    document.getElementById("score").innerHTML = "Your Score: " + score;
+    document.getElementById("demo").innerHTML = colors[colNum];
+}
+    
+function buttonPress(buttonNum){
+    indicateSwitch();
+   guessList.push(colors[buttonNum]);
+}
+    
+ var j;
+var switchInicator =0;
+function myCheck(){
+    indicateSwitch();
+    for(j=0; j<thisList.length; j++){
+        if(thisList[j]!=guessList[j]){
+            console.log("guesst list " + guessList);
+            document.getElementById("two").innerHTML = "Wrong";
+            return false;
+        }
+    }
+ document.getElementById("two").innerHTML = "Correct";
+    score = score +1;
+    if(score> localStorage.getItem("highScore")){
+        var highScoreName = document.getElementById("myHigh").value;
+        maxScore = score;
+        localStorage.setItem("highScore", maxScore);
+        localStorage.setItem("highName", highScoreName);
+        //document.getElementById("three").innerHTML = localStorage.getItem("highScore");
+    } else{
+        document.getElementById("three").innerHTML = "current high score: ";
+    }
+    document.getElementById("four").innerHTML = localStorage.getItem("highScore");
+    document.getElementById("five").innerHTML = localStorage.getItem("highName");
+ myStart();
+ guessList = [];
+    return true;
+}
+    
+function indicateSwitch(){
+    if(switchInicator===0){
+        switchInicator=1;
+    document.getElementById("change").innerHTML = "x";
+    } else{
+        switchInicator=0;
+    document.getElementById("change").innerHTML = "o";
+    }
+}
+
+</script>
+
+<a>
+<button1 class="myclass" onclick="buttonPress(0)"> </button1> 
+<button2 class="myclass" onclick="buttonPress(1)"> </button2> 
+    <br /> 
+<button3 class="myclass" onclick="buttonPress(2)"> </button3> 
+<button5 class="myclass" onclick="buttonPress(3)"> </button5>  
+</a>
+    <p id="two"></p>
+    <p id="score"></p>
+    <p id="change"></p>
+    <p.in id="three"></p.in>
+    <p.in id="four"></p.in>
+    <p.in id="five"></p.in>
+<a>
+</a>
+</body>
+</html>

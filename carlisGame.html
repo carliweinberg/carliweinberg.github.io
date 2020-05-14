@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Carli Weinberg</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./layout-styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">CarliWeinberg.com</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/">Home</a></li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Games <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="blankBlank.html">Carli Says</a></li>
+          <li><a href="colorGame.html">Color Game</a></li>
+          <li><a href="drivingGame.html">Driving Game</a></li>
+        </ul>
+      </li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> Schedule <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="http://athletics.rose-hulman.edu/sports/wsoc/2016-17/schedule">Soccer Games</a></li>
+          <li><a href="carlisSchedule.html">Fall Quarter</a></li>
+        </ul>
+      </li>
+
+    </ul>
+  </div>
+</nav>
+</head>
+
+<body onload="startGame()">
+
+
+  
+
+<script>
+/////////////////////////////
+
+
+
+var myGamePiece;
+var myShot;
+var myShots = [];
+var evil = [];
+
+function startGame() {
+    myGameArea.start();
+    myGamePiece = new component(65, 10, "red", 100, 255);
+}
+
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 480;
+        this.canvas.height = 270;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.interval = setInterval(updateGameArea, 20);
+        window.addEventListener('keydown', function (e) {
+            myGameArea.key = e.keyCode;
+        })
+        window.addEventListener('keyup', function (e) {
+            myGameArea.key = false;
+        })
+    }, 
+    clear : function(){
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+function component(width, height, color, x, y) {
+    this.gamearea = myGameArea;
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;    
+    this.x = x;
+    this.y = y;    
+    this.update = function() {
+        ctx = myGameArea.context;
+        ctx.fillStyle = color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+    this.newPos = function() {
+        this.x += this.speedX;
+        this.y += this.speedY;        
+    }
+}
+
+function updateGameArea() {
+    myGameArea.clear();
+    myGamePiece.speedX = 0;
+    myGamePiece.speedY = 0;    
+    if (myGameArea.key && myGameArea.key == 37) {myGamePiece.speedX = -2; }
+    if (myGameArea.key && myGameArea.key == 39) {myGamePiece.speedX = 2; }
+    myGamePiece.newPos();    
+    myGamePiece.update();
+    
+    if (myGameArea.key && myGameArea.key == 38) {
+        myShots.push( new component(10,10, "blue", myGamePiece.x+(myGamePiece.width/2)-5,myGamePiece.y));
+    }
+    
+    for (i = 0; i < myShots.length; i += 1) {
+        myShots[i].speedY = -2;
+        myShots[i].newPos();
+        myShots[i].update();
+		if(isTouching(evil,myShots[i])) {
+		evil.remove();
+		}
+    }
+	
+	evil.push(new component(10,10, "green", 50,50));
+	
+	for (i = 0; i < evil.length; i += 1) {
+        evil[i].newPos();
+        evil[i].update();
+    }
+	
+}
+
+function isTouching(firstObj, secondObj){
+	true;
+}
+
+////////////////////
+</script>
+
+
+</body>
+</html>
